@@ -34,3 +34,34 @@ do
     # Sleep for a few seconds before the next iteration
     sleep 5
 done
+
+
+# Fazendo um for loop para pegar records continuamente no kds
+# OBS: This script uses the jq command-line JSON processor to extract the NextShardIterator from the get-records response and updates the shard_iterator variable with it. Adjust the script based on your specific use case and processing requirements.
+
+Ensure that jq is installed on your system. You can install it using a package manager like apt or brew, depending on your operating system.
+
+
+#!/bin/bash
+
+STREAM_NAME="YourStreamName"
+SHARD_ID="shard-000000000000"  # Replace with your actual shard ID
+
+# Get the initial shard iterator
+shard_iterator=$(aws kinesis get-shard-iterator --stream-name $STREAM_NAME --shard-id $SHARD_ID --shard-iterator-type LATEST --query 'ShardIterator' --output text)
+
+# Loop to continuously get records
+while true
+do
+    # Get records
+    records=$(aws kinesis get-records --shard-iterator $shard_iterator --limit 10)  # Adjust limit as needed
+
+    # Print the records or process them as needed
+    echo "$records"
+
+    # Get the next shard iterator for the next set of records
+    shard_iterator=$(echo "$records" | jq -r '.NextShardIterator')
+
+    # Sleep for a few seconds before the next iteration
+    sleep 5
+done
