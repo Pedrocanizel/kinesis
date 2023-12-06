@@ -1,0 +1,36 @@
+# buscando o shard iterator
+aws kinesis \
+get-shard-iterator \
+--stream-name cxp-db-events-stream \
+--shard-id \
+shardId-000000000000 \
+--shard-iterator-type TRIM_HORIZON(ou LATEST)
+
+# buscando os records
+aws kinesis get-records \
+--shard-iterator \
+<colar-shard-iterator-aqui>
+
+# listando shards
+aws kinesis list-shards \
+--stream-name cxp-db-events-stream
+
+For loop pra pegar o último evento que chega no kds
+```bash
+#!/bin/bash
+
+STREAM_NAME="cxp-db-events-stream"
+SHARD_ID="shardId-000000000000"  # Replace with your actual shard ID
+
+# Get the shard iterator
+shard_iterator=$(aws kinesis get-shard-iterator --stream-name $STREAM_NAME --shard-id $SHARD_ID --shard-iterator-type LATEST --query 'ShardIterator' --output text)
+
+# Loop to continuously get records
+while true
+do
+    # Get records
+    aws kinesis get-records --shard-iterator $shard_iterator --limit 10  # Adjust limit as needed
+
+    # Sleep for a few seconds before the next iteration
+    sleep 5
+done
