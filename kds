@@ -65,3 +65,6 @@ do
     # Sleep for a few seconds before the next iteration
     sleep 5
 done
+
+
+"ShardIterator": "AAAAAAAAAAFJZM/TyCFGzFSHV+dnBGbDsaHs20ewVQ1IDLII9G8Zuw7ae6sozJsDmARJC66pTmM8Ii1RCoVYfwDDEPDuaDYx9+GR0QulgTJfFKHJ2K3nedpqP3Fm7YiMp5SCwoBItV/bZyTK3wCOd/tA3MKBM4DOy8RhwyuxstyCGJnIQoRebVYU/kZzWAzFSxOqkz6+FQjw5KvLyjEYyUi89jGBpMsgnc+6RVc4VyTQyqNHWV0v4g=="
